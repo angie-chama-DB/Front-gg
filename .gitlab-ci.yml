@@ -1,0 +1,25 @@
+stages:
+  - build
+  - test
+
+build-job:
+  stage: build
+  image: docker:24.0
+  services:
+    - docker:24.0-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo "Construyendo imagen Frontend..."
+    - docker build -t frontend-hello .
+
+test-job:
+  stage: test
+  image: docker:24.0
+  services:
+    - docker:24.0-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo "Ejecutando contenedor Frontend..."
+    - docker run --rm -p 8080:80 frontend-hello
