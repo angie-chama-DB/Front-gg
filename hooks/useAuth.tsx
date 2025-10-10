@@ -2,11 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import * as authService from "@/services/authService"
-
-interface User {
-  name: string
-  email: string
-}
+import type { User } from "@/types/auth"
 
 interface AuthContextType {
   user: User | null

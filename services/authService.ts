@@ -1,28 +1,6 @@
 
 
-export interface RegisterCredentials {
-  name: string
-  email: string
-  password: string
-}
-
-export interface LoginCredentials {
-  email: string
-  password: string
-}
-
-export interface LoginResponse {
-  access_token: string
-  user: {
-    name: string
-    email: string
-  }
-}
-
-export interface ApiError {
-  code: string
-  message: string
-}
+import type { RegisterCredentials, LoginCredentials, LoginResponse, ApiError } from "@/types/auth"
 
 // Mock data
 const MOCK_TAKEN_EMAILS = ["taken@example.com", "admin@pixpro.com"]
