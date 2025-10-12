@@ -9,7 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string) => Promise<void>
+  register: (name: string, displayName: string, email: string, password: string, phone: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -47,10 +47,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name: string, displayName: string, email: string, password: string, phone: string) => {
     setIsLoading(true)
     try {
-      await authService.register({ name, email, password })
+      await authService.register({ name, displayName, email, password, phone })
     } catch (error) {
       throw error
     } finally {
@@ -61,12 +61,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setIsLoading(true)
     try {
-      await authService.logout()
       localStorage.removeItem("access_token")
       localStorage.removeItem("user")
       setUser(null)
+      try {
+        await authService.logout()
+      } catch (backendError) {
+        console.log("Backend logout failed, but local logout completed")
+      }
     } catch (error) {
-      throw error
+      localStorage.removeItem("access_token")
+      localStorage.removeItem("user")
+      setUser(null)
     } finally {
       setIsLoading(false)
     }
