@@ -1,12 +1,17 @@
 export interface User {
+  id: string
   name: string
+  displayName: string
   email: string
+  phone: string
 }
 
 export interface RegisterCredentials {
   name: string
+  displayName: string
   email: string
   password: string
+  phone: string
 }
 
 export interface LoginCredentials {

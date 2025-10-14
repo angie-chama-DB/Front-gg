@@ -21,13 +21,20 @@ export default function RegisterPage() {
   const { values, errors, handleChange, handleBlur, validateForm } = useForm({
     initialValues: {
       name: "",
+      displayName: "",
       email: "",
       password: "",
+      phone: "",
     },
     validationRules: {
       name: (value) => {
         if (!value) return "El nombre es obligatorio"
         if (value.length < 2) return "El nombre debe tener al menos 2 caracteres"
+        return ""
+      },
+      displayName: (value) => {
+        if (!value) return "El nombre de usuario es obligatorio"
+        if (value.length < 2) return "El nombre de usuario debe tener al menos 2 caracteres"
         return ""
       },
       email: (value) => {
@@ -41,6 +48,11 @@ export default function RegisterPage() {
         if (!/[A-Z]/.test(value)) return "Debe contener una mayúscula"
         if (!/[a-z]/.test(value)) return "Debe contener una minúscula"
         if (!/[0-9]/.test(value)) return "Debe contener un número"
+        return ""
+      },
+      phone: (value) => {
+        if (!value) return "El teléfono es obligatorio"
+        if (!/^\+?[\d\s\-\(\)]{8,}$/.test(value)) return "Formato de teléfono inválido"
         return ""
       },
     },
@@ -63,7 +75,7 @@ export default function RegisterPage() {
     }
 
     try {
-      await register(values.name, values.email, values.password)
+      await register(values.name, values.displayName, values.email, values.password, values.phone)
       showToast("¡Registro exitoso! Ahora puedes iniciar sesión", "success")
       router.push("/login")
     } catch (err: any) {
@@ -101,6 +113,18 @@ export default function RegisterPage() {
           />
 
           <Input
+            label="Nombre de usuario"
+            type="text"
+            name="displayName"
+            value={values.displayName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.displayName}
+            placeholder="juanperez"
+            autoComplete="username"
+          />
+
+          <Input
             label="Correo electrónico"
             type="email"
             name="email"
@@ -110,6 +134,18 @@ export default function RegisterPage() {
             error={errors.email}
             placeholder="tu@email.com"
             autoComplete="email"
+          />
+
+          <Input
+            label="Teléfono"
+            type="tel"
+            name="phone"
+            value={values.phone}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.phone}
+            placeholder="+1 234 567 8900"
+            autoComplete="tel"
           />
 
           <div>

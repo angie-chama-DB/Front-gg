@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${inter.variable}`}>
-      <body>
+      <body suppressHydrationWarning={true}>
         <AuthProvider>
           {children}
           <Toaster />

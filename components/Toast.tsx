@@ -1,9 +1,9 @@
 "use client"
 
 import { createContext, useState, useCallback } from "react"
-import { CheckCircle2, XCircle, X } from "lucide-react"
+import { CheckCircle2, XCircle, X, Info } from "lucide-react"
 
-type ToastType = "success" | "error"
+type ToastType = "success" | "error" | "info"
 
 interface Toast {
   id: string
@@ -46,13 +46,21 @@ export function Toaster() {
               glass-strong rounded-xl p-4 shadow-2xl
               flex items-center gap-3 min-w-[300px]
               animate-fade-in-up
-              ${toast.type === "success" ? "border-l-4 border-success" : "border-l-4 border-destructive"}
+              ${
+                toast.type === "success" 
+                  ? "border-l-4 border-success" 
+                  : toast.type === "error"
+                  ? "border-l-4 border-destructive"
+                  : "border-l-4 border-blue-500"
+              }
             `}
           >
             {toast.type === "success" ? (
               <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0" />
-            ) : (
+            ) : toast.type === "error" ? (
               <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+            ) : (
+              <Info className="w-5 h-5 text-blue-500 flex-shrink-0" />
             )}
             <p className="flex-1 text-sm text-foreground">{toast.message}</p>
             <button
@@ -111,13 +119,21 @@ export function ToasterWithEvents() {
             glass-strong rounded-xl p-4 shadow-2xl
             flex items-center gap-3 min-w-[300px]
             animate-fade-in-up
-            ${toast.type === "success" ? "border-l-4 border-success" : "border-l-4 border-destructive"}
+            ${
+              toast.type === "success" 
+                ? "border-l-4 border-success" 
+                : toast.type === "error"
+                ? "border-l-4 border-destructive"
+                : "border-l-4 border-blue-500"
+            }
           `}
         >
           {toast.type === "success" ? (
             <CheckCircle2 className="w-5 h-5 text-success flex-shrink-0" />
-          ) : (
+          ) : toast.type === "error" ? (
             <XCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+          ) : (
+            <Info className="w-5 h-5 text-blue-500 flex-shrink-0" />
           )}
           <p className="flex-1 text-sm text-foreground">{toast.message}</p>
           <button
